@@ -7,8 +7,8 @@
   "scripts": {
     "start": "ts-node --experimental-specifier-resolution=node --esm src/main.ts"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Szymon Jankowski - me@szymekk.me",
+  "license": "MIT",
   "dependencies": {
     "chalk": "^5.1.2",
     "execa": "^6.1.0",
