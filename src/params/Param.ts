@@ -1,5 +1,8 @@
 import { Command } from "../command";
 
+export type SupportedTypes = string | number | Command | Param;
+export type SupportedTypesWithArray = SupportedTypes | SupportedTypes[];
+
 export abstract class Param {
     abstract get name(): string;
 
@@ -7,6 +10,6 @@ export abstract class Param {
 
     abstract get variationCount(): number;
 
-    abstract getVariations(): (string | Command | Param)[];
+    abstract getVariations(): SupportedTypes[];
 }
 

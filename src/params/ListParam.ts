@@ -1,11 +1,12 @@
-import { Param } from './Param';
+import { Param, SupportedTypes } from './Param';
 import { Command } from "../command";
+import { calculateVarationCount, mapResult } from "./param-utils";
 
-export class ListParam<T = any> extends Param {
+export class ListParam extends Param {
     readonly name = "List";
 
     constructor(
-        public readonly items: T[],
+        public readonly items: SupportedTypes[],
     ) {
         super();
     }
@@ -17,13 +18,11 @@ export class ListParam<T = any> extends Param {
     }
 
     get variationCount(): number {
-        return this.items
-            .reduce((acc, item) => acc + (item instanceof Command ? item.variationCount : 1), 0);
+        return calculateVarationCount(this.items);
     }
 
-    getVariations(): (string | Command)[] {
-        return this.items
-            .map(item => item instanceof Command ? item : String(item));
+    getVariations(): SupportedTypes[] {
+        return mapResult(this.items);
     }
 
     protected formatItem(item: any): string {
@@ -34,7 +33,7 @@ export class ListParam<T = any> extends Param {
 }
 
 
-export const list = <T = any>(first: T | Array<T>, ...items: T[]): ListParam<T> => {
+export const list = <T extends SupportedTypes>(first: T | Array<T>, ...items: T[]): ListParam => {
     if(Array.isArray(first)) return new ListParam([...first, ...items]);
     return new ListParam([first, ...items]);
 };

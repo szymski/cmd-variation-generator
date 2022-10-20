@@ -3,7 +3,7 @@ import { Param } from './Param';
 export class IntRangeParam extends Param {
     readonly name = "IntRange";
 
-    readonly #reversed: boolean = false;
+    readonly reversed: boolean = false;
 
     /**
      * @param min Inclusive minimum integer value
@@ -24,13 +24,13 @@ export class IntRangeParam extends Param {
 
         // Reverse if min > max
         if (min > max) {
-            this.#reversed = true;
+            this.reversed = true;
             [this.min, this.max] = [this.max, this.min];
 
             if (step > 0) this.step *= -1;
         }
 
-        if (step < 0 && !this.#reversed) throw new Error("Step cannot be negative when min < max");
+        if (step < 0 && !this.reversed) throw new Error("Step cannot be negative when min < max");
     }
 
     get formattedInputs(): string {
@@ -45,7 +45,7 @@ export class IntRangeParam extends Param {
         const count = this.variationCount;
 
         const assignValue: (_: any, idx: number) => any =
-            !this.#reversed
+            !this.reversed
                 ? (_, idx) => this.min + idx * this.step
                 : (_, idx) => this.max + idx * this.step;
 

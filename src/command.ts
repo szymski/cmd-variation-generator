@@ -1,27 +1,31 @@
-import { list, Param, primitive, PrioritizedParam } from './params';
 import chalk from 'chalk';
-import { FromParamsParam } from "./params/FromParamsParam";
+import { FromParamsParam, list, Param, primitive, PrioritizedParam } from "./params";
 import _ from "underscore";
 
 type ParamPosHash = string;
 
 const hashCodeOfParamPos = (param: Param, pos: number): ParamPosHash => {
-  return `${param.name}#${pos}`;
+    return `${param.name}#${pos}`;
 };
 
 export class Command {
     protected readonly paramPosToValueIndex: Record<number, number> = {};
 
+    public readonly paramsOriginalPos: Param[];
+
     constructor(
-        protected readonly strings: string[],
-        protected readonly params: Param[],
+        public readonly strings: string[],
+        public readonly params: Param[],
     )
     {
+        this.paramsOriginalPos = params.slice();
+
         const orgIndex = new Map<ParamPosHash, number>();
         this.params.forEach((param, index) => orgIndex.set(hashCodeOfParamPos(param, index), index));
 
         // console.log("Before priority sorting: " + this.params.map(formatParam).join(" "));
-        const entries: [ParamPosHash, Param][] = params.map((param, index) => [hashCodeOfParamPos(param, index), param]);
+        const entries: [ParamPosHash, Param][] = params.map((param, index) => [hashCodeOfParamPos(param, index),
+            param]);
         entries.sort(([hash1, param1], [hash2, param2]) => PrioritizedParam.comparePriority(param1, param2));
         entries.forEach(([hash, param], index) => {
             this.params[index] = param;
@@ -56,8 +60,7 @@ export class Command {
         // return chalk.white(formatted);
 
         const generator = new Generator(this.strings, this.params, this.paramPosToValueIndex, false);
-        const example = generator.generateSingleVariation(random);
-        return chalk.white(example);
+        return generator.generateSingleVariation(random);
     }
 
     getVariations(reversed: boolean = false): string[] {
@@ -71,7 +74,7 @@ export class Command {
     }
 }
 
-const formatParam = (param: Param, pos: number) => {
+export const formatParam = (param: Param, pos: number) => {
     return chalk.greenBright(`#${pos}{${chalk.yellowBright(param.name)}${chalk.whiteBright("(")}${chalk.magenta(param.formattedInputs)}${chalk.whiteBright(")")}}`);
 };
 
@@ -153,9 +156,22 @@ class Generator {
                 this.paramValues[paramIdx] = value;
                 yield* this.generateVariations(otherParams, paramIdx + 1);
             } else if (variation instanceof Param) {
-                throw new Error(`Param '${variation.name}' is not supported as a variation`);
+                for (const nested of variation.getVariations()) {
+                    if (nested instanceof Param) {
+                        yield* this.generateVariations(otherParams, paramIdx + 1);
+                    } else if (typeof nested === "string" || typeof nested === "number") {
+                        this.paramValues[paramIdx] = String(nested);
+                        yield* this.generateVariations(otherParams, paramIdx + 1);
+                    } else {
+                        throw new Error(`Unsupported variation type: ${typeof nested}`);
+                    }
+                    // this.paramValues[paramIdx] = nested;
+                    // yield* this.generateVariations(otherParams, paramIdx + 1);
+                }
+
+                // throw new Error(`Param '${variation.name}' is not supported as a variation`);
             } else {
-                this.paramValues[paramIdx] = variation;
+                this.paramValues[paramIdx] = String(variation);
                 yield* this.generateVariations(otherParams, paramIdx + 1);
             }
         }

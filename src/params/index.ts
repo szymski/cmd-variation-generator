@@ -5,3 +5,6 @@ export * from "./ListParam";
 export * from "./FromParamsParam";
 export * from "./PrioritizedParam";
 export * from "./PrimitiveLiteralParam";
+export * from "./CallbackParam";
+export { calculateVarationCount } from "./param-utils";
+export { mapResult } from "./param-utils";

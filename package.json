@@ -5,7 +5,8 @@
   "main": "src/main.ts",
   "type": "module",
   "scripts": {
-    "start": "ts-node --experimental-specifier-resolution=node --esm src/main.ts"
+    "start": "ts-node --experimental-specifier-resolution=node --esm src/main.ts",
+    "test": "jest"
   },
   "author": "Szymon Jankowski - me@szymekk.me",
   "license": "MIT",
@@ -17,9 +18,15 @@
     "underscore": "^1.13.6"
   },
   "devDependencies": {
+    "@babel/preset-typescript": "^7.18.6",
     "@types/chalk": "^2.2.0",
     "@types/execa": "^2.0.0",
+    "@types/jest": "^29.2.0",
     "@types/node": "^18.11.2",
-    "@types/underscore": "^1.11.4"
+    "@types/underscore": "^1.11.4",
+    "jest": "^29.2.1",
+    "jest-runner-tsc": "^1.6.0",
+    "node-notifier": "^10.0.1",
+    "ts-jest": "^29.0.3"
   }
 }

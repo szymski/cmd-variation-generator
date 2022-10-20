@@ -35,7 +35,7 @@ export class FloatRangeParam extends Param {
     }
 
     get variationCount(): number {
-        return Math.ceil((this.max - this.min + Math.abs(this.step)) / Math.abs(this.step));
+        return Math.floor((this.max - this.min + Math.abs(this.step)) / Math.abs(this.step));
     }
 
     getVariations(): string[] {
