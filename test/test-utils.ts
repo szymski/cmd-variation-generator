@@ -1,4 +1,4 @@
-import { Param, SupportedTypes } from "./params";
+import { Param, SupportedTypes } from "../src/params";
 
 export const buildMockParam = ({getVariationsMock}: { getVariationsMock: () => SupportedTypes[]; }): Param => new class extends Param {
     readonly name = "test";

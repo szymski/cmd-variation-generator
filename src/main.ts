@@ -1,3 +1,4 @@
+import 'module-alias/register';
 import { cmd, Command } from './command';
 import { callback, floatRange, fromParams, intRange, list, priority } from './params';
 import { executeAll } from "./executor";

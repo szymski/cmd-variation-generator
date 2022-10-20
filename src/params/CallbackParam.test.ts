@@ -1,5 +1,5 @@
 import { callback } from "./CallbackParam";
-import { buildMockParam } from "../test-utils";
+import { buildMockParam } from "@test/test-utils";
 
 describe("Params", () => {
     describe("CallbackParam", () => {

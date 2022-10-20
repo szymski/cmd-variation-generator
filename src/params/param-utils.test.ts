@@ -1,7 +1,7 @@
 import { list } from "./ListParam";
 import { mapResult } from "./param-utils";
 import { cmd } from "../command";
-import { buildMockParam } from "../test-utils";
+import { buildMockParam } from "@test/test-utils";
 
 describe("Param utils", () => {
 
