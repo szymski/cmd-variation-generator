@@ -1,6 +1,6 @@
 import { Param } from "./Param";
 import { Command } from "../command";
-import { calculateVarationCount, mapResult } from "./param-utils";
+import { calculateVariationCount, mapResult } from "./param-utils";
 
 type SupportedTypes = string | number | Command | Param;
 type SupportedTypesWithArray = SupportedTypes | SupportedTypes[];
@@ -20,7 +20,7 @@ export class CallbackParam extends Param {
     }
 
     get variationCount(): number {
-        return calculateVarationCount(this.callback());
+        return calculateVariationCount(this.callback());
     }
 
     get formattedInputs(): string {

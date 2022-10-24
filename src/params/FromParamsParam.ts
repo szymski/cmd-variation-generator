@@ -1,12 +1,13 @@
-import { Param} from "./Param";
+import { Param, SupportedTypes } from "./Param";
 import { PrioritizedParam } from "./PrioritizedParam";
+import { mapResult } from "../params/param-utils";
 
 export class FromParamsParam extends Param implements PrioritizedParam {
     readonly name = "FromParams";
     readonly priority = 1_000;
 
     constructor(
-        public readonly callback: (params: string[]) => string,
+        public readonly callback: (params: string[]) => SupportedTypes,
     ) {
         super();
     }
@@ -15,8 +16,8 @@ export class FromParamsParam extends Param implements PrioritizedParam {
         return [this];
     }
 
-    invoke(params: string[]): string {
-        return this.callback(params);
+    invoke(params: string[]): SupportedTypes[] {
+        return mapResult(this.callback(params));
     }
 
     get variationCount(): number {
@@ -28,4 +29,4 @@ export class FromParamsParam extends Param implements PrioritizedParam {
     }
 }
 
-export const fromParams = (callback: (params: string[]) => string): FromParamsParam => new FromParamsParam(callback);
+export const fromParams = (callback: (params: string[]) => SupportedTypes): FromParamsParam => new FromParamsParam(callback);

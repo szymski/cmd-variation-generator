@@ -1,7 +1,8 @@
 import { list } from "./ListParam";
-import { mapResult } from "./param-utils";
+import { calculateVariationCount, mapResult } from "./param-utils";
 import { cmd } from "../command";
 import { buildMockParam } from "@test/test-utils";
+import { intRange } from "@src/params/IntRangeParam";
 
 describe("Param utils", () => {
 
@@ -85,6 +86,25 @@ describe("Param utils", () => {
 
             // then
             expect(mapped).toEqual(["1", "I am a mock", "I am a command", "2"]);
+        });
+
+    });
+
+    describe("calculateVariationCount", () => {
+
+        it("should get variation count of ListParam", () => {
+            const given = list(1, 2, 3);
+            const count = calculateVariationCount(given);
+            expect(count).toEqual(3);
+        });
+
+        it("should get variation count of ListParam with nested IntRangeParam", () => {
+            const param = intRange(1, 10);
+            const given = list<any>(1, param, 3);
+            const variations = given.getVariations();
+            console.log(variations);
+            const count = calculateVariationCount(given);
+            expect(count).toEqual(12);
         });
 
     });

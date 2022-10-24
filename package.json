@@ -5,7 +5,9 @@
   "main": "src/main.ts",
   "type": "module",
   "scripts": {
-    "start": "ts-node --experimental-specifier-resolution=node --esm src/main.ts",
+    "start:ts": "ts-node --experimental-specifier-resolution=node --esm",
+    "start": "npm run start:ts src/main.ts",
+    "example:commands": "npm run start:ts src/examples/example-commands.ts",
     "test": "jest"
   },
   "author": "Szymon Jankowski - me@szymekk.me",
@@ -31,6 +33,7 @@
     "ts-jest": "^29.0.3"
   },
   "_moduleAliases": {
+    "@src": "dist/src",
     "@test": "dist/test"
   }
 }

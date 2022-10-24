@@ -1,5 +1,5 @@
-import { primitive } from "./PrimitiveLiteralParam";
 import { buildMockParam } from "@test/test-utils";
+import { primitive } from "./PrimitiveLiteralParam";
 
 describe("Params", () => {
     describe("PrimitiveLiteralParam", () => {

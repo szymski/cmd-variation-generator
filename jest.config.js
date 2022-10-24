@@ -5,6 +5,7 @@ const config = {
   extensionsToTreatAsEsm: ['.ts'],
   moduleNameMapper: {
     "^@test/(.*)$": "<rootDir>/test/$1",
+    "^@src/(.*)$": "<rootDir>/src/$1",
     '^(\\.{1,2}/.*)\\.js$': '$1',
     "#(.*)": "<rootDir>/node_modules/$1",
   },

@@ -13,16 +13,8 @@ export const mapResult = (result: SupportedTypesWithArray): SupportedTypes[] => 
     else return [String(result)];
 }
 
-/// Variant 2 - each param has to call mapResult explicitly
-export const mapResult_Variant_2 = (result: SupportedTypesWithArray): SupportedTypes[] => {
-    if (Array.isArray(result)) return result.flatMap(mapResult);
-    else if (result instanceof Param) return result.getVariations().map(mapResult).flat();
-    else if (result instanceof Command) return [result];
-    else return [String(result)];
-}
-
-export const calculateVarationCount = (result: SupportedTypesWithArray): number => {
-    if (Array.isArray(result)) return result.flatMap(calculateVarationCount).reduce((a, b) => a * b, 1) * result.length;
+export const calculateVariationCount = (result: SupportedTypesWithArray): number => {
+    if (Array.isArray(result)) return result.flatMap(calculateVariationCount).reduce((a, b) => a + b, 0);
     else if (result instanceof Param) return result.variationCount;
     else if (result instanceof Command) return result.variationCount;
     else return 1;

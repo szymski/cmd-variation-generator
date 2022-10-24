@@ -1,6 +1,6 @@
 import { Param, SupportedTypes } from './Param';
 import { Command } from "../command";
-import { calculateVarationCount, mapResult } from "./param-utils";
+import { calculateVariationCount, mapResult } from "./param-utils";
 
 export class ListParam extends Param {
     readonly name = "List";
@@ -18,7 +18,7 @@ export class ListParam extends Param {
     }
 
     get variationCount(): number {
-        return calculateVarationCount(this.items);
+        return calculateVariationCount(this.items);
     }
 
     getVariations(): SupportedTypes[] {

@@ -55,10 +55,6 @@ export class Command {
     }
 
     getExample(random: boolean = false): string {
-        // const formatted = this.strings.map((str, idx) => [str, this.params[this.paramPosToValueIndex[idx]] ?? undefined, this.paramPosToValueIndex[idx]])
-        //     .reduce((acc, [str, param, pos]) => acc + str + (param ? (param as Param).getVariations()[0] : ""), "");
-        // return chalk.white(formatted);
-
         const generator = new Generator(this.strings, this.params, this.paramPosToValueIndex, false);
         return generator.generateSingleVariation(random);
     }
@@ -151,9 +147,14 @@ class Generator {
                 }
             } else if (variation instanceof FromParamsParam) {
                 const valueList = this.prepareParamList();
-                const value = variation.invoke(valueList);
+                const values = variation.invoke(valueList);
                 // console.log(chalk.yellowBright(`Invoked FromParams callback: ${value}`));
-                this.paramValues[paramIdx] = value;
+                // for(const val of values) {
+                //     if(val instanceof Param) {
+                //         this.paramValues[paramIdx] = val;
+                //         yield* this.generateVariations([val, ...otherParams], paramIdx);
+                //     }
+                // }
                 yield* this.generateVariations(otherParams, paramIdx + 1);
             } else if (variation instanceof Param) {
                 for (const nested of variation.getVariations()) {
